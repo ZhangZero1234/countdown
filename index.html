@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Document</title>
+	<script src="jquery.js"></script>
+</head>
+<body>
+	<button class="send" data-verify="pending">发送验证码</button>
+</body>
+	<script>
+		
+		var Send = function(opt){
+			this.option = $(opt);
+			this.option.click(operation.bind(this));
+			this.counter = 5;
+			this.timer = null;
+		}
+		Send.prototype.init = function(){
+			this.counter = 5;
+			this.option.text("发送验证码");
+			this.option.attr("disabled",false);
+		}
+		Send.prototype.settime = function() {
+			if(this.counter == -1)
+			{
+				this.init();
+				clearInterval(this.timer);
+				return;
+			}
+			this.option.text("重新发送("+ this.counter +"s)");
+			this.counter = this.counter-1;		
+		}
+		function operation(){
+			var _this = this;
+			this.option.attr("disabled",true);
+			this.timer = setInterval(function(){
+				_this.settime();
+			},1000);
+		}
+
+		new Send(".send");
+		
+	</script>
+</html>
